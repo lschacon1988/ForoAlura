@@ -4,3 +4,7 @@ spring:
     url: jdbc:mysql://localhost/foro
     username: root
     password: Admin1234
+
+hibernate:
+  hbm2ddl:
+    auto: create

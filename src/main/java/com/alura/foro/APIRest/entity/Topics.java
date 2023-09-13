@@ -28,7 +28,7 @@ public class Topics {
     private User autor;
     @OneToOne(fetch = FetchType.LAZY)
     private Course curso;
-
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Response> response;
 
 

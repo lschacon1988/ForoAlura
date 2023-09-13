@@ -17,7 +17,8 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String message;
-    @OneToMany(mappedBy = "Response")
+    @ManyToOne()
+    @JoinColumn(name= "topico_id")
     private Topics topico;
     private LocalDateTime fechaCreacion = LocalDateTime.now();
     @OneToMany
