@@ -22,12 +22,14 @@ public class TokenService {
         try {
             System.out.println(secreKey);
             Algorithm algorithm = Algorithm.HMAC256(secreKey);
+
             return JWT.create()
                     .withSubject(user.getUsername())
-                    .withIssuer("auth0")
+                    .withIssuer("foroAlura")
                     .withClaim("id", user.getId())
                     .withExpiresAt(generarFechaExpiracion())
                     .sign(algorithm);
+
         } catch (JWTCreationException exception) {
             throw new RuntimeException(exception);
         }
@@ -46,7 +48,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secreKey);
             verifier = JWT.require(algorithm)
-                    .withIssuer("auth0")
+                    .withIssuer("foroAlura")
                     .build()
                     .verify(token);
 
@@ -56,6 +58,7 @@ public class TokenService {
             }
             return subject;
         } catch (JWTVerificationException exception) {
+            System.out.println("MENSAJE DE ERROR "+exception.getMessage());
             throw new RuntimeException("Error al verificar el token", exception);
         }
     }

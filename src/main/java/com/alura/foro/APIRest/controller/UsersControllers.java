@@ -5,6 +5,7 @@ import com.alura.foro.APIRest.DTO.user.RequestUserDTO;
 import com.alura.foro.APIRest.DTO.user.UserDTO;
 import com.alura.foro.APIRest.entity.User;
 import com.alura.foro.APIRest.infra.errors.ErrorMessage;
+import com.alura.foro.APIRest.infra.utils.UriComponenrs;
 import com.alura.foro.APIRest.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class UsersControllers {
 
         User newUser = usersRepository.save(userDb);
         URI url =
-                uriComponentsBuilder.path("api/v1/users/{id}").buildAndExpand(userDb.getId()).toUri();
+                UriComponenrs.buildUri(uriComponentsBuilder, newUser.getId(), "users");
         return ResponseEntity.created(url).body(new DetailUserDTO(newUser));
     }
 

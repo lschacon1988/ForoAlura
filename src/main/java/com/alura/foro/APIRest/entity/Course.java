@@ -19,4 +19,11 @@ public class Course {
     private Boolean activo= true;
 
 
+    public void desactivar() {
+        this.activo = false;
+    }
+
+    public void activar(){
+        this.activo = true;
+    }
 }

@@ -41,11 +41,8 @@ public class SecurityConfiguration {
                             .requestMatchers(HttpMethod.POST,
                                     "/api/v1/users").permitAll()
                             .requestMatchers(HttpMethod.GET,
-                                    "/api/v1/topics").permitAll();
-
-                    authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
-
-
+                                    "/api/v1/topics").permitAll()
+                            .anyRequest().authenticated();
                 }
         );
         httpSecurity.addFilterBefore(this.securityFilter,
