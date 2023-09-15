@@ -16,4 +16,7 @@ public class Course {
     private Long id;
     private String title;
     private String category;
+    private Boolean activo= true;
+
+
 }

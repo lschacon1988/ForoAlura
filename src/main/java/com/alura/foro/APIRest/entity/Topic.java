@@ -1,19 +1,20 @@
 package com.alura.foro.APIRest.entity;
 
+import com.alura.foro.APIRest.DTO.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name= "topicos")
+@Table(name= "topics")
 @Data
 @AllArgsConstructor @NoArgsConstructor
-public class Topics {
+public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,14 +24,24 @@ public class Topics {
     private String message;
     private LocalDateTime date= LocalDateTime.now();
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User autor;
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Course curso;
-    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true )
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Response> response;
 
-
+    public void addResponse(Response response){
+        if(this.response == null){
+            this.response = new ArrayList<>();
+        }
+        response.setTopic(this);
+        this.response.add(response);
+    }
 
 }

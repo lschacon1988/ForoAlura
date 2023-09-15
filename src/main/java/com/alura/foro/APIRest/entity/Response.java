@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "respuesta")
+@Table(name = "topic_response")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,9 +19,9 @@ public class Response {
     private String message;
     @ManyToOne()
     @JoinColumn(name= "topico_id")
-    private Topics topico;
+    private Topic topic;
     private LocalDateTime fechaCreacion = LocalDateTime.now();
-    @OneToMany
+    @ManyToOne
     private User autor;
     private Boolean solucion = false;
 }

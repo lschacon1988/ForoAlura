@@ -8,3 +8,7 @@ spring:
 hibernate:
   hbm2ddl:
     auto: create
+
+api:
+  security:
+    secret: ${SECRET_KEY:algoSecreto}
