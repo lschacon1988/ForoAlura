@@ -28,10 +28,13 @@ public class Topic {
     private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id")
     private User autor;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id")
     private Course curso;
+    private Boolean activo = true;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Response> response;

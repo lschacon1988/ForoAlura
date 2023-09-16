@@ -2,21 +2,19 @@ package com.alura.foro.APIRest.DTO.topic;
 
 import com.alura.foro.APIRest.DTO.Status;
 import com.alura.foro.APIRest.entity.Topic;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record TopicResponseDTO(
-        Long id,
-        @NotNull @NotBlank
+public record TopicUpdateDTO(
+        @NotNull
         String message,
-        @NotNull @NotBlank
+        @NotNull
         String title,
-        @NotNull @NotBlank
+        @NotNull
         Status status) {
 
-    public TopicResponseDTO(Topic topic) {
+    public TopicUpdateDTO(Topic topic) {
         this(
-                topic.getId(),
+
                 topic.getMessage(),
                 topic.getTitle(),
                 topic.getStatus()

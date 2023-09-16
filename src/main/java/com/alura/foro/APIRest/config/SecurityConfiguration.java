@@ -1,6 +1,6 @@
 package com.alura.foro.APIRest.config;
 
-import com.alura.foro.APIRest.infra.services.SecurityFilter;
+import com.alura.foro.APIRest.infra.services.security.SecurityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

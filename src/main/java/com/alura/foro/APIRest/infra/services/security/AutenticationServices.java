@@ -1,4 +1,4 @@
-package com.alura.foro.APIRest.infra.services;
+package com.alura.foro.APIRest.infra.services.security;
 
 import com.alura.foro.APIRest.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;

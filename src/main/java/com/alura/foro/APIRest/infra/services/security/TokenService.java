@@ -1,4 +1,4 @@
-package com.alura.foro.APIRest.infra.services;
+package com.alura.foro.APIRest.infra.services.security;
 
 import com.alura.foro.APIRest.entity.User;
 import com.auth0.jwt.JWT;

@@ -2,8 +2,8 @@ package com.alura.foro.APIRest.controller;
 
 import com.alura.foro.APIRest.DTO.user.UserLoginDTO;
 import com.alura.foro.APIRest.entity.User;
-import com.alura.foro.APIRest.infra.services.JWTTokenDTO;
-import com.alura.foro.APIRest.infra.services.TokenService;
+import com.alura.foro.APIRest.infra.services.security.JWTTokenDTO;
+import com.alura.foro.APIRest.infra.services.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -2,6 +2,7 @@ package com.alura.foro.APIRest.controller;
 
 import com.alura.foro.APIRest.DTO.course.CourseRequestDTO;
 import com.alura.foro.APIRest.DTO.course.CourseResponseDTO;
+import com.alura.foro.APIRest.DTO.course.CourseUpdateDTO;
 import com.alura.foro.APIRest.DTO.user.DetailUserDTO;
 import com.alura.foro.APIRest.entity.Course;
 import com.alura.foro.APIRest.infra.errors.ErrorMessage;
@@ -43,7 +44,7 @@ public class CourseControllers {
     public ResponseEntity<Object> createCourse(@RequestBody @Valid CourseRequestDTO courseRequestDTO,
                                                           UriComponentsBuilder uriComponentsBuilder){
 
-        CourseResponseDTO courseExiset = courseRepository.findByTitle(courseRequestDTO.title());
+        Course courseExiset = courseRepository.findByTitle(courseRequestDTO.title());
         if(courseExiset != null){
             ErrorMessage message = new ErrorMessage();
             message.setMessage("El recurso que intenta registrar ya existe " + courseExiset.toString());
@@ -61,10 +62,10 @@ public class CourseControllers {
         return  ResponseEntity.created(url).body(new CourseResponseDTO(newCourse));
     }
 
-    @PutMapping("{id}")
+    @PatchMapping("{id}")
     @Transactional
-    public  ResponseEntity<CourseResponseDTO> updateCourse(@RequestBody @Valid CourseRequestDTO courseRequestDTO,
-                                                           @PathVariable long id){
+    public  ResponseEntity<CourseUpdateDTO> updateCourse(@RequestBody @Valid CourseRequestDTO courseRequestDTO,
+                                                             @PathVariable long id){
 
         Course course = courseRepository.getReferenceById(id);
         String newTitle = courseRequestDTO.title().isEmpty() ?
@@ -76,7 +77,7 @@ public class CourseControllers {
         course.setTitle(newTitle);
         course.setCategory(newCategory);
 
-        return ResponseEntity.ok(new CourseResponseDTO(course));
+        return ResponseEntity.ok(new CourseUpdateDTO(course));
     }
 
     @DeleteMapping("/deactivate/{id}")
