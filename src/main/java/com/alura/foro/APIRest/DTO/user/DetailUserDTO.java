@@ -7,14 +7,16 @@ import java.time.LocalDateTime;
 public record DetailUserDTO(String username,
                             String email,
                             Long id,
-                            LocalDateTime registered) {
+                            LocalDateTime registered,
+                            Boolean activo) {
 
     public DetailUserDTO(User user){
         this(
                 user.getUsername(),
                 user.getEmail(),
                 user.getId(),
-                user.getRegistered()
+                user.getRegistered(),
+                user.getActivo()
         );
     }
 }

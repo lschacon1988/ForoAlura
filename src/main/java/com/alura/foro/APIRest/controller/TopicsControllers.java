@@ -4,9 +4,12 @@ import com.alura.foro.APIRest.DTO.topic.TopicRequestDTO;
 import com.alura.foro.APIRest.DTO.topic.TopicResponseDTO;
 import com.alura.foro.APIRest.DTO.topic.TopicUpdateDTO;
 import com.alura.foro.APIRest.entity.Topic;
+import com.alura.foro.APIRest.infra.errors.ErrorMessage;
 import com.alura.foro.APIRest.infra.services.topic.TopicServices;
 import com.alura.foro.APIRest.infra.utils.UriComponenrs;
 import com.alura.foro.APIRest.repository.TopicsRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,12 +24,16 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/topics")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class TopicsControllers {
 
     private final TopicsRepository topicsRepository;
     private  final TopicServices topicServices;
 
     @GetMapping
+    @Operation(summary = "Obtiene los registros del topicos",
+    description = "Obtine un listado de registro de topicos de la base de datos," +
+            "paginados en 5 registros por paginas ")
     public ResponseEntity<Page<TopicResponseDTO>> getAllTopics(@PageableDefault(size = 5) Pageable pageable){
         Page<TopicResponseDTO> allTopics = topicsRepository.findAll(pageable).map(TopicResponseDTO:: new);
 
@@ -34,6 +41,10 @@ public class TopicsControllers {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Obtiene los detalles del topico",
+            description = "Obtine la informacion detallada de un  registro en la base " +
+                    "de datos," +
+                    " el parametro de busqaueda es el id del topico ")
     public  ResponseEntity<TopicResponseDTO> detailTopic(@PathVariable Long id){
         Topic topic = topicsRepository.getReferenceById(id);
         System.out.println(topic.getAutor().getUsername());
@@ -41,15 +52,30 @@ public class TopicsControllers {
     }
 
     @PostMapping
-    public  ResponseEntity<TopicResponseDTO> createTopic(@RequestBody TopicRequestDTO topicRequestDTO,
+    @Operation(summary = "Crea un registros del topico",
+            description = "Crea un registro de topico en la base de datos, recibe la informacion " +
+                    "en formato JSON, si el titulo del topico coninside con alguno existente " +
+                    "devolvera 409")
+    public  ResponseEntity<Object> createTopic(@RequestBody TopicRequestDTO topicRequestDTO,
                                                          UriComponentsBuilder uriComponentsBuilder){
-            var newTopic = topicServices.create(topicRequestDTO);
+        Boolean courseExiset = topicsRepository.existsByTitle(topicRequestDTO.title());
+        if(courseExiset){
+            ErrorMessage message = new ErrorMessage();
+            message.setMessage("El recurso que intenta registrar ya existe " + courseExiset.toString());
+            message.setStatus(409);
+            return  ResponseEntity.status(409).body(message);
+        }
+
+        var newTopic = topicServices.create(topicRequestDTO);
         URI url = UriComponenrs.buildUri(uriComponentsBuilder, newTopic.id(),"topics");
             return ResponseEntity.created(url).body(newTopic);
     }
 
     @PatchMapping("{id}")
     @Transactional
+    @Operation(summary = "Actualiza los registros del topicos",
+            description = "Actualiza el topico qeu coincida con el id pasado como parametro de " +
+                    "busqueda.")
     public ResponseEntity<TopicResponseDTO> updateTopic(@PathVariable Long id,
                                                         @RequestBody TopicUpdateDTO topicUpdateDTO){
         Topic topic = topicsRepository.getReferenceById(id);
@@ -58,12 +84,22 @@ public class TopicsControllers {
         String newTitle = topicUpdateDTO.title().isEmpty() ?
                 topic.getTitle() : topicUpdateDTO.title();
 
-        topic.setTitle("");
-        topic.setMessage("");
+        topic.setTitle(newTitle);
+        topic.setMessage(newMessage);
 
         return ResponseEntity.ok(new TopicResponseDTO(topic));
 
     }
 
+    @DeleteMapping("{id}")
+    @Transactional
+    @Operation(summary = "Desactiva los registros del topicos",
+            description = "Hace un Borrado logico del topico seleccionado " +
+                    "es decir no lo elimina de la base de datos solo lo desactiva")
+    public ResponseEntity<Void> deactivateTopic(@PathVariable Long id){
+        Topic topic = topicsRepository.getReferenceById(id);
+        topic.deactivate();
+        return ResponseEntity.noContent().build();
+    }
 
 }

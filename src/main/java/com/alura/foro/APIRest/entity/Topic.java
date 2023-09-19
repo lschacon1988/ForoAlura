@@ -47,4 +47,10 @@ public class Topic {
         this.response.add(response);
     }
 
+    public void deactivate() {
+        this.activo = false;
+    }
+    public void activate() {
+        this.activo = true;
+    }
 }

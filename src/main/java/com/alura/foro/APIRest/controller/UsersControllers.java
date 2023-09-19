@@ -7,14 +7,15 @@ import com.alura.foro.APIRest.entity.User;
 import com.alura.foro.APIRest.infra.errors.ErrorMessage;
 import com.alura.foro.APIRest.infra.utils.UriComponenrs;
 import com.alura.foro.APIRest.repository.UsersRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.catalina.connector.Request;
+import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,6 +23,12 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@SecurityRequirement(name = "bearer-key",scopes = {"detailUser",
+        "getAllUser",
+        "updateUser",
+        "deleteUser",
+        "activarUser"
+})
 public class UsersControllers {
 
     private final UsersRepository usersRepository;
@@ -31,14 +38,27 @@ public class UsersControllers {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserDTO>> getAllUser(@PageableDefault(size = 5) Pageable page) {
+
+    @Operation(summary = "Obtiene un listado de registros del usuarios",
+            description = "Devuelbe un listado de todos los usuarios en la base de datos" +
+                    "con un maximo de 5 registro por pagina, esta ruta se encuentra protegida con" +
+                    " una" +
+                    "estrategia de" +
+                    " JWT", tags = "USERS")
+    public ResponseEntity<Page<UserDTO>> getAllUser(@PageableDefault(size = 5, sort = "username") Pageable page
+                                                     ) {
 
 
-        Page<UserDTO> allUser = usersRepository.findAll(page).map(UserDTO::new);
+        Page<UserDTO> allUser = usersRepository.findByActivoTrue(page);
         return ResponseEntity.ok(allUser);
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Obtiene informacion detallada de registro del usuario",
+            description = "Obten la informacion de un usuario en la base de datos" +
+                    "consultando su id de registro, esta ruta se encuentra protegida con una " +
+                    "estrategia de" +
+                    " JWT", tags = "USERS")
     public ResponseEntity<DetailUserDTO> detailUser(@PathVariable Long id) {
         DetailUserDTO detailUser = new DetailUserDTO(usersRepository.getReferenceById(id));
         return ResponseEntity.ok(detailUser);
@@ -46,14 +66,17 @@ public class UsersControllers {
     }
 
     @PostMapping
+    @Operation(summary = "Registra un usuario",
+            description = "Registra credenciales de usuarios para acceder a todas las rutas " +
+                    "protegidas", tags = "USERS")
     public ResponseEntity<Object> createUser(@RequestBody RequestUserDTO user,
-                                                    UriComponentsBuilder uriComponentsBuilder) {
+                                             UriComponentsBuilder uriComponentsBuilder) {
         DetailUserDTO userExiset = usersRepository.findByEmail(user.email());
-        if(userExiset != null){
+        if (userExiset != null) {
             ErrorMessage message = new ErrorMessage();
             message.setMessage("El recurso que intenta registrar ya existe " + userExiset.toString());
             message.setStatus(409);
-            return  ResponseEntity.status(409).body(message);
+            return ResponseEntity.status(409).body(message);
         }
 
         User userDb = new User();
@@ -69,6 +92,12 @@ public class UsersControllers {
 
     @PatchMapping("{id}")
     @Transactional
+
+    @Operation(summary = "Actualiza un usuario",
+            description = "Actualiza las credenciales de usuarios para acceder a todas las rutas " +
+                    "protegidas el usuario debe estar registrado, la ruta se encuentra" +
+                    "protegida con una startegia JWT", tags =
+            "USERS")
     public ResponseEntity<DetailUserDTO> updateUser(@RequestBody RequestUserDTO userUpdate,
                                                     @PathVariable Long id) {
 
@@ -93,7 +122,12 @@ public class UsersControllers {
 
     @DeleteMapping("{id}")
     @Transactional
-    public  ResponseEntity<Void> deleteUser(@PathVariable Long id){
+    @Operation(summary = "Desactiva un usuario",
+            description = "Esta ruta se encarga de realizar una desactivacion de usurios, la ruta" +
+                    " se encuentra" +
+                    "protegida con una startegia JWT", tags =
+            "USERS")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         User userExist = usersRepository.getReferenceById(id);
         userExist.desactivar();
 
@@ -102,10 +136,15 @@ public class UsersControllers {
 
     @PatchMapping("/activar/{id}")
     @Transactional
-    public ResponseEntity<DetailUserDTO> activarUser(@PathVariable Long id){
+    @Operation(summary = "Activar un usuario",
+            description = "Esta ruta se encarga de realizar una Reactivacion de usurios, la ruta" +
+                    " se encuentra" +
+                    "protegida con una startegia JWT", tags =
+            "USERS")
+    public ResponseEntity<DetailUserDTO> activarUser(@PathVariable Long id) {
         User userDesactivado = usersRepository.getReferenceById(id);
         userDesactivado.activar();
 
-        return  ResponseEntity.ok(new DetailUserDTO(userDesactivado));
+        return ResponseEntity.ok(new DetailUserDTO(userDesactivado));
     }
 }

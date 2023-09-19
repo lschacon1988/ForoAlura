@@ -36,12 +36,12 @@ public class SecurityConfiguration {
                     authorizationManagerRequestMatcherRegistry
                             .requestMatchers(HttpMethod.POST,
                                     "/api/v1/login").permitAll()
-                            .requestMatchers(HttpMethod.GET,
-                                    "/api/v1/users").permitAll()
                             .requestMatchers(HttpMethod.POST,
                                     "/api/v1/users").permitAll()
                             .requestMatchers(HttpMethod.GET,
                                     "/api/v1/topics").permitAll()
+                            .requestMatchers("/swagger-ui.html",
+                                    "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated();
                 }
         );

@@ -8,6 +8,7 @@ import com.alura.foro.APIRest.entity.Course;
 import com.alura.foro.APIRest.infra.errors.ErrorMessage;
 import com.alura.foro.APIRest.infra.utils.UriComponenrs;
 import com.alura.foro.APIRest.repository.CourseRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/courses")
 @AllArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class CourseControllers {
 
     private final CourseRepository courseRepository;
@@ -44,8 +46,8 @@ public class CourseControllers {
     public ResponseEntity<Object> createCourse(@RequestBody @Valid CourseRequestDTO courseRequestDTO,
                                                           UriComponentsBuilder uriComponentsBuilder){
 
-        Course courseExiset = courseRepository.findByTitle(courseRequestDTO.title());
-        if(courseExiset != null){
+        Boolean courseExiset = courseRepository.existsByTitle(courseRequestDTO.title());
+        if(courseExiset){
             ErrorMessage message = new ErrorMessage();
             message.setMessage("El recurso que intenta registrar ya existe " + courseExiset.toString());
             message.setStatus(409);

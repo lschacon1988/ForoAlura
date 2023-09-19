@@ -5,5 +5,8 @@ import com.alura.foro.APIRest.entity.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Course findByTitle(String title);
+
+    Boolean existsByTitle(String title);
+
+    Course findByTitle(String titleCourse);
 }
