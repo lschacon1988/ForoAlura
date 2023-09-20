@@ -13,7 +13,9 @@ public class CorsConfigurations implements WebMvcConfigurer {
 
                 .allowedOrigins(
                         "https://foroalura-production.up.railway.app/**",
-                        "http://foroalura-production.up.railway.app/**","http://localhost:8080")
+                        "http://foroalura-production.up.railway.app/**",
+                        "http://localhost:8080",
+                        "*")
 
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE",
                         "CONNECT")
