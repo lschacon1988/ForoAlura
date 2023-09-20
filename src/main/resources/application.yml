@@ -8,7 +8,6 @@ spring:
     username: ${USER_DB:root}
     password: ${PASSWORD_DB:Admin1234}
 
-
 hibernate:
   hbm2ddl:
     auto: create
@@ -16,5 +15,4 @@ hibernate:
 api:
   security:
     secret: ${SECRET_KEY:algoSecreto}
-
 
