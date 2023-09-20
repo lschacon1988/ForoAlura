@@ -1,16 +1,20 @@
 server:
-  port: ${PORT:3000}
+  port: ${PORT:8080}
+#  servlet:
+#    context-path: /swagger-ui.html
 
 spring:
   datasource:
+
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${URL_DB:jdbc:mysql://localhost/foro}
     username: ${USER_DB:root}
     password: ${PASSWORD_DB:Admin1234}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
 
-hibernate:
-  hbm2ddl:
-    auto: create
 
 api:
   security:

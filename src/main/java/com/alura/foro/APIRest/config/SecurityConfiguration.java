@@ -36,6 +36,8 @@ public class SecurityConfiguration {
                     authorizationManagerRequestMatcherRegistry
                             .requestMatchers(HttpMethod.POST,
                                     "/api/v1/login").permitAll()
+                            .requestMatchers(HttpMethod.GET,
+                                    "/").permitAll()
                             .requestMatchers(HttpMethod.POST,
                                     "/api/v1/users").permitAll()
                             .requestMatchers(HttpMethod.GET,
