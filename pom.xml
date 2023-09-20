@@ -98,6 +98,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>Foro-Alura</finalName>
 	</build>
 
 </project>

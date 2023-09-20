@@ -1,9 +1,13 @@
+server:
+  port: ${PORT:3000}
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${URL_DB:jdbc:mysql://localhost/foro }
-    username: ${USER_DB:root }
-    password: ${PASSWORD_DB:Admin1234 }
+    url: ${URL_DB:jdbc:mysql://localhost/foro}
+    username: ${USER_DB:root}
+    password: ${PASSWORD_DB:Admin1234}
+
 
 hibernate:
   hbm2ddl:
@@ -12,3 +16,5 @@ hibernate:
 api:
   security:
     secret: ${SECRET_KEY:algoSecreto}
+
+

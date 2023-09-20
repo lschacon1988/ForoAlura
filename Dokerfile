@@ -1,0 +1,3 @@
+FORM openjdk:17
+ADD ./Foro-Alura.jar Foro-Alura.jar
+ENTRYPOINT ["java", ".jar", "Foro-Alura.jar"]
