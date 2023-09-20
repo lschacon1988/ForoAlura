@@ -10,8 +10,7 @@ public class CorsConfigurations implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("Request URL\n" +
-                        "http://foroalura-production.up.railway.app/**")
+                .allowedOrigins("http://foroalura-production.up.railway.app/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
     }
 }
