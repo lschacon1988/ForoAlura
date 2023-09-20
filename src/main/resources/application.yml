@@ -15,9 +15,7 @@ spring:
     hibernate:
       ddl-auto: update
 
-springdoc:
-  swagger-ui:
-    url: https://foroalura-production.up.railway.app
+
 
 api:
   security:
