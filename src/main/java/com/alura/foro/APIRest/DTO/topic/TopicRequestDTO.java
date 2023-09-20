@@ -19,15 +19,5 @@ public record TopicRequestDTO(
         @NotNull
         String titleCourse) {
 
-//    public TopicRequestDTO(Topic topic) {
-//        this(
-//
-//                topic.getMessage(),
-//                topic.getTitle(),
-//                topic.getStatus(),
-//                topic.getAutor().getUsername(),
-//                topic.getCurso().getTitle()
-//        );
-//
-//    }
+
 }

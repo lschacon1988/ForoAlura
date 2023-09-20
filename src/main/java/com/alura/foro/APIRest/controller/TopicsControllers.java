@@ -33,7 +33,7 @@ public class TopicsControllers {
     @GetMapping
     @Operation(summary = "Obtiene los registros del topicos",
     description = "Obtine un listado de registro de topicos de la base de datos," +
-            "paginados en 5 registros por paginas ")
+            "paginados en 5 registros por paginas ",tags = "TOPICS")
     public ResponseEntity<Page<TopicResponseDTO>> getAllTopics(@PageableDefault(size = 5) Pageable pageable){
         Page<TopicResponseDTO> allTopics = topicsRepository.findAll(pageable).map(TopicResponseDTO:: new);
 
@@ -44,10 +44,10 @@ public class TopicsControllers {
     @Operation(summary = "Obtiene los detalles del topico",
             description = "Obtine la informacion detallada de un  registro en la base " +
                     "de datos," +
-                    " el parametro de busqaueda es el id del topico ")
+                    " el parametro de busqaueda es el id del topico ",tags = "TOPICS")
     public  ResponseEntity<TopicResponseDTO> detailTopic(@PathVariable Long id){
         Topic topic = topicsRepository.getReferenceById(id);
-        System.out.println(topic.getAutor().getUsername());
+
         return  ResponseEntity.ok(new TopicResponseDTO(topic));
     }
 
@@ -55,27 +55,30 @@ public class TopicsControllers {
     @Operation(summary = "Crea un registros del topico",
             description = "Crea un registro de topico en la base de datos, recibe la informacion " +
                     "en formato JSON, si el titulo del topico coninside con alguno existente " +
-                    "devolvera 409")
+                    "devolvera 409",tags = "TOPICS")
     public  ResponseEntity<Object> createTopic(@RequestBody TopicRequestDTO topicRequestDTO,
                                                          UriComponentsBuilder uriComponentsBuilder){
         Boolean courseExiset = topicsRepository.existsByTitle(topicRequestDTO.title());
+
         if(courseExiset){
             ErrorMessage message = new ErrorMessage();
             message.setMessage("El recurso que intenta registrar ya existe " + courseExiset.toString());
             message.setStatus(409);
+
             return  ResponseEntity.status(409).body(message);
         }
 
         var newTopic = topicServices.create(topicRequestDTO);
         URI url = UriComponenrs.buildUri(uriComponentsBuilder, newTopic.id(),"topics");
-            return ResponseEntity.created(url).body(newTopic);
+
+        return ResponseEntity.created(url).body(newTopic);
     }
 
     @PatchMapping("{id}")
     @Transactional
     @Operation(summary = "Actualiza los registros del topicos",
             description = "Actualiza el topico qeu coincida con el id pasado como parametro de " +
-                    "busqueda.")
+                    "busqueda.",tags = "TOPICS")
     public ResponseEntity<TopicResponseDTO> updateTopic(@PathVariable Long id,
                                                         @RequestBody TopicUpdateDTO topicUpdateDTO){
         Topic topic = topicsRepository.getReferenceById(id);
@@ -95,10 +98,12 @@ public class TopicsControllers {
     @Transactional
     @Operation(summary = "Desactiva los registros del topicos",
             description = "Hace un Borrado logico del topico seleccionado " +
-                    "es decir no lo elimina de la base de datos solo lo desactiva")
+                    "es decir no lo elimina de la base de datos solo lo desactiva",
+    tags = "TOPICS")
     public ResponseEntity<Void> deactivateTopic(@PathVariable Long id){
         Topic topic = topicsRepository.getReferenceById(id);
         topic.deactivate();
+
         return ResponseEntity.noContent().build();
     }
 

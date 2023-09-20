@@ -9,6 +9,7 @@ import com.alura.foro.APIRest.infra.errors.ErrorMessage;
 import com.alura.foro.APIRest.infra.utils.UriComponenrs;
 import com.alura.foro.APIRest.repository.CourseRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -90,7 +91,7 @@ public class CourseControllers {
 
            return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/activater/{id}")
+    @PatchMapping("/activater/{id}")
     @Transactional
     public ResponseEntity<Void> activateCourse(@PathVariable Long id){
         Course course = courseRepository.getReferenceById(id);

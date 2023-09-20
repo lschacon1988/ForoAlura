@@ -5,6 +5,7 @@ import com.alura.foro.APIRest.DTO.topic.TopicRequestDTO;
 import com.alura.foro.APIRest.DTO.topic.TopicResponseDTO;
 import com.alura.foro.APIRest.entity.Topic;
 import com.alura.foro.APIRest.entity.User;
+import com.alura.foro.APIRest.infra.errors.IntegrityValidation;
 import com.alura.foro.APIRest.repository.CourseRepository;
 import com.alura.foro.APIRest.repository.TopicsRepository;
 import com.alura.foro.APIRest.repository.UsersRepository;
@@ -28,8 +29,15 @@ public class TopicServices {
 
     public TopicResponseDTO create(TopicRequestDTO datos) {
         var user = usersRepository.findByUsername(datos.username());
-        System.out.println(user);
         var course = courseRepository.findByTitle(datos.titleCourse());
+
+        if(user == null ){
+            throw new IntegrityValidation("El usuario no se encuentra registrado");
+        }
+
+        if(course == null){
+            throw new IntegrityValidation("El curso no esta registrado en la base de dato");
+        }
 
         Topic topic = new Topic();
         topic.setMessage(datos.message());
