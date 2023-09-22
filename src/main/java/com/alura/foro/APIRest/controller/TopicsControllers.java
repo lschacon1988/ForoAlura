@@ -24,13 +24,14 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/topics")
 @AllArgsConstructor
-@SecurityRequirement(name = "bearer-key")
+
 public class TopicsControllers {
 
     private final TopicsRepository topicsRepository;
     private  final TopicServices topicServices;
 
     @GetMapping
+    @Transactional
     @Operation(summary = "Obtiene los registros del topicos",
     description = "Obtine un listado de registro de topicos de la base de datos," +
             "paginados en 5 registros por paginas ",tags = "TOPICS")
@@ -41,6 +42,8 @@ public class TopicsControllers {
     }
 
     @GetMapping("{id}")
+    @Transactional
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Obtiene los detalles del topico",
             description = "Obtine la informacion detallada de un  registro en la base " +
                     "de datos," +
@@ -52,6 +55,8 @@ public class TopicsControllers {
     }
 
     @PostMapping
+    @Transactional
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Crea un registros del topico",
             description = "Crea un registro de topico en la base de datos, recibe la informacion " +
                     "en formato JSON, si el titulo del topico coninside con alguno existente " +
@@ -76,6 +81,7 @@ public class TopicsControllers {
 
     @PatchMapping("{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Actualiza los registros del topicos",
             description = "Actualiza el topico qeu coincida con el id pasado como parametro de " +
                     "busqueda.",tags = "TOPICS")
@@ -96,6 +102,7 @@ public class TopicsControllers {
 
     @DeleteMapping("{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Desactiva los registros del topicos",
             description = "Hace un Borrado logico del topico seleccionado " +
                     "es decir no lo elimina de la base de datos solo lo desactiva",

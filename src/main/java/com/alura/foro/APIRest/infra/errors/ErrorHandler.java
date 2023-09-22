@@ -14,7 +14,7 @@ public class ErrorHandler {
     private final ErrorMessage errorMessage = new ErrorMessage();
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity Error500(Exception e){
+    public ResponseEntity<ErrorMessage> Error500(Exception e){
         this.errorMessage.setMessage("internal server Error " + e.getMessage());
         this.errorMessage.setStatus(500);
         return ResponseEntity.internalServerError().body(this.errorMessage);
@@ -32,6 +32,13 @@ public class ErrorHandler {
     public ResponseEntity tratarError400(MethodArgumentNotValidException e){
         var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
         return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler(IntegrityValidation.class)
+    public ResponseEntity<ErrorMessage> trataIntegridad(IntegrityValidation e){
+        this.errorMessage.setMessage(e.getMessage());
+        this.errorMessage.setStatus(400);
+        return ResponseEntity.badRequest().body(this.errorMessage);
     }
 
     private record DatosErrorValidacion(String campo, String error){

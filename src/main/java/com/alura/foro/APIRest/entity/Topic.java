@@ -37,7 +37,7 @@ public class Topic {
     private Boolean activo = true;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true )
-    private List<Response> response;
+    private List<Response> response= new ArrayList<>();
 
     public void addResponse(Response response){
         if(this.response == null){

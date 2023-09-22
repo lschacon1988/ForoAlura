@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -28,20 +29,11 @@ public class SwaggerConfigure {
                                         .bearerFormat("JWT")))
                         .addServersItem(
                                 new Server().url("https://foroalura-production.up.railway.app"))
-                        .addServersItem(new Server().url("http://localhost:8080"));
+                        .addServersItem(
+                                new Server() .url("http://localhost:8080"));
     }
 
-    @Bean
-    public Docket api() {
-        System.out.println(PathSelectors.any());
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(
-                        RequestHandlerSelectors
-                                .basePackage("src/main/java/com/alura/foro/APIRest/controller"))
-                .paths(PathSelectors.any())
-                .build();
-    }
+
 
 
     @Bean

@@ -45,8 +45,8 @@ public class TopicServices {
         topic.setAutor((User) user);
         topic.setCurso(course);
         topic.setStatus(Status.NO_SOLUCIONADO);
-        TopicResponseDTO newTopic = new TopicResponseDTO(topicsRepository.save(topic));
-        return newTopic;
+
+        return new TopicResponseDTO(topicsRepository.save(topic));
     }
 
 }

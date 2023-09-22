@@ -16,4 +16,6 @@ public interface UsersRepository extends JpaRepository<User, Long> {
     UserDetails findByUsername(String username);
 
     Page<UserDTO> findByActivoTrue(Pageable page);
+
+    Boolean existsByUsername(String username);
 }

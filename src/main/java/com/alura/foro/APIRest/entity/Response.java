@@ -18,10 +18,11 @@ public class Response {
     private Long id;
     private String message;
     @ManyToOne()
-    @JoinColumn(name= "topico_id")
+//    @JoinColumn(name= "topico_id")
     private Topic topic;
     private LocalDateTime fechaCreacion = LocalDateTime.now();
     @ManyToOne
+//    @JoinColumn(name = "autor_id")
     private User autor;
     private Boolean solucion = false;
 }

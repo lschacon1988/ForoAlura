@@ -23,12 +23,6 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@SecurityRequirement(name = "bearer-key",scopes = {"detailUser",
-        "getAllUser",
-        "updateUser",
-        "deleteUser",
-        "activarUser"
-})
 public class UsersControllers {
 
     private final UsersRepository usersRepository;
@@ -38,7 +32,7 @@ public class UsersControllers {
     }
 
     @GetMapping
-
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Obtiene un listado de registros del usuarios",
             description = "Devuelbe un listado de todos los usuarios en la base de datos" +
                     "con un maximo de 5 registro por pagina, esta ruta se encuentra protegida con" +
@@ -54,6 +48,7 @@ public class UsersControllers {
     }
 
     @GetMapping("{id}")
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Obtiene informacion detallada de registro del usuario",
             description = "Obten la informacion de un usuario en la base de datos" +
                     "consultando su id de registro, esta ruta se encuentra protegida con una " +
@@ -92,7 +87,7 @@ public class UsersControllers {
 
     @PatchMapping("{id}")
     @Transactional
-
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Actualiza un usuario",
             description = "Actualiza las credenciales de usuarios para acceder a todas las rutas " +
                     "protegidas el usuario debe estar registrado, la ruta se encuentra" +
@@ -122,6 +117,7 @@ public class UsersControllers {
 
     @DeleteMapping("{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Desactiva un usuario",
             description = "Esta ruta se encarga de realizar una desactivacion de usurios, la ruta" +
                     " se encuentra" +
@@ -136,6 +132,7 @@ public class UsersControllers {
 
     @PatchMapping("/activar/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "Activar un usuario",
             description = "Esta ruta se encarga de realizar una Reactivacion de usurios, la ruta" +
                     " se encuentra" +

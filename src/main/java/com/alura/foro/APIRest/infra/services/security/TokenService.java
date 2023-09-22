@@ -1,6 +1,7 @@
 package com.alura.foro.APIRest.infra.services.security;
 
 import com.alura.foro.APIRest.entity.User;
+import com.alura.foro.APIRest.infra.errors.IntegrityValidation;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -20,7 +21,9 @@ public class TokenService {
 
     public String generateToken(User user) {
         try {
-            System.out.println(secreKey);
+           if(user == null){
+               throw new IntegrityValidation("usuario no existe");
+           }
             Algorithm algorithm = Algorithm.HMAC256(secreKey);
 
             return JWT.create()
