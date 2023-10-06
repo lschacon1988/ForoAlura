@@ -10,8 +10,7 @@ import com.alura.foro.APIRest.repository.UsersRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.connector.Request;
-import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

@@ -2,17 +2,17 @@ package com.alura.foro.APIRest.infra.services.response;
 
 import com.alura.foro.APIRest.DTO.response.ResponseDetailDTO;
 import com.alura.foro.APIRest.DTO.response.ResponseRequestDTO;
-import com.alura.foro.APIRest.DTO.user.UserDTO;
+
 import com.alura.foro.APIRest.entity.Response;
 import com.alura.foro.APIRest.entity.Topic;
 import com.alura.foro.APIRest.entity.User;
 import com.alura.foro.APIRest.infra.errors.IntegrityValidation;
 import com.alura.foro.APIRest.repository.ResponseRepository;
-import com.alura.foro.APIRest.repository.TopicsRepository;
+// import com.alura.foro.APIRest.repository.TopicsRepository;
 import com.alura.foro.APIRest.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class ResponseService {
     @Autowired
     private UsersRepository usersRepository;
 
-    @Autowired
-    private TopicsRepository topicsRepository;
+    // @Autowired
+    // private TopicsRepository topicsRepository;
 
     @Autowired
     private ResponseRepository responseRepository;
@@ -51,10 +51,10 @@ public class ResponseService {
     }
 
 
-    public List<ResponseDetailDTO> responseTopic(Long idTopic){
+    public List<Response> responseTopic(Long idTopic){
 
-        List<ResponseDetailDTO> response =
-                responseRepository.findAll().stream().map(ResponseDetailDTO::new).toList();
+        List<Response> response = responseRepository.findAllByTopic(idTopic);
+                // responseRepository.findAll().stream().map(ResponseDetailDTO::new).toList();
         return response;
     }
 }

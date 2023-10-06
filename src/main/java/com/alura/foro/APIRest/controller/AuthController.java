@@ -2,7 +2,7 @@ package com.alura.foro.APIRest.controller;
 
 import com.alura.foro.APIRest.DTO.user.UserLoginDTO;
 import com.alura.foro.APIRest.entity.User;
-import com.alura.foro.APIRest.infra.errors.ErrorMessage;
+
 import com.alura.foro.APIRest.infra.errors.IntegrityValidation;
 import com.alura.foro.APIRest.infra.services.security.JWTTokenDTO;
 import com.alura.foro.APIRest.infra.services.security.TokenService;
