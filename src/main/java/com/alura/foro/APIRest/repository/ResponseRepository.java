@@ -13,5 +13,5 @@ public interface ResponseRepository extends JpaRepository<Response, Long> {
     List<ResponseDetailDTO> findByTopic(Topic topic);
 
     @Query("SELECT r FROM Response r WHERE r.topic.id = :idTopic")
-    List<ResponseDetailDTO> findAllByTopic(@Param("idTopic") long idTopic);
+    List<Response> findAllByTopic(@Param("idTopic") long idTopic);
 }

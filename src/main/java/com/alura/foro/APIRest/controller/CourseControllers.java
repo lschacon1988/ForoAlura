@@ -3,13 +3,13 @@ package com.alura.foro.APIRest.controller;
 import com.alura.foro.APIRest.DTO.course.CourseRequestDTO;
 import com.alura.foro.APIRest.DTO.course.CourseResponseDTO;
 import com.alura.foro.APIRest.DTO.course.CourseUpdateDTO;
-import com.alura.foro.APIRest.DTO.user.DetailUserDTO;
+
 import com.alura.foro.APIRest.entity.Course;
 import com.alura.foro.APIRest.infra.errors.ErrorMessage;
 import com.alura.foro.APIRest.infra.utils.UriComponenrs;
 import com.alura.foro.APIRest.repository.CourseRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tags;
+
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
